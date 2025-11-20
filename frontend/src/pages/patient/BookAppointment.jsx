@@ -73,7 +73,8 @@ const BookAppointment = () => {
       setReason('')
     } catch (error) {
       console.error('Failed to book appointment', error)
-      setFeedback({ type: 'error', message: error.response?.data?.message || 'Unable to book appointment' })
+      const errorMessage = error.response?.data?.message || 'Unable to book appointment'
+      setFeedback({ type: 'error', message: errorMessage })
     } finally {
       setSubmitting(false)
     }

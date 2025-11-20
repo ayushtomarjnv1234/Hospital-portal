@@ -101,6 +101,7 @@ const SignUp = () => {
         email: formData.email,
         password: formData.password,
         phone: formData.phone,
+        address: formData.address,
         role: formData.role
       }
 

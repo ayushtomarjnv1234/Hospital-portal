@@ -46,6 +46,18 @@ exports.bookAppointment = async (req, res) => {
       return res.status(400).json({ message: 'Invalid appointment date' });
     }
 
+    // Check if the doctor is already booked for this date and time
+    const existingAppointment = await Appointment.findOne({
+      doctorId: doctor._id,
+      date: appointmentDate,
+      time,
+      status: { $in: ['pending', 'confirmed'] },
+    });
+
+    if (existingAppointment) {
+      return res.status(400).json({ message: 'Doctor is busy at this time slot' });
+    }
+
     const appointment = await Appointment.create({
       patientId: req.user.id,
       doctorId: doctor._id,
