@@ -193,7 +193,7 @@ exports.deleteProfileField = async (req, res) => {
       return res.status(404).json({ message: 'Profile field not found' });
     }
 
-    field.remove();
+    user.profileFields.pull(fieldId);
     await user.save();
 
     return res.json({ message: 'Profile field deleted', fields: user.profileFields });
