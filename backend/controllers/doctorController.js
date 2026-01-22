@@ -98,6 +98,50 @@ exports.getProfile = async (req, res) => {
   }
 };
 
+exports.getStats = async (req, res) => {
+  try {
+    if (!ensureDoctorRole(req, res)) {
+      return;
+    }
+
+    // Get total unique patients (confirmed appointments)
+    const allAppointments = await Appointment.find({
+      doctorId: req.user.id,
+      status: 'confirmed'
+    }).populate('patientId', '_id');
+
+    const uniquePatientIds = new Set(allAppointments.map((apt) => apt.patientId._id.toString()));
+    const totalPatients = uniquePatientIds.size;
+
+    // Get appointments from this week
+    const now = new Date();
+    const startOfWeek = new Date(now);
+    startOfWeek.setDate(now.getDate() - now.getDay()); // Sunday
+    startOfWeek.setHours(0, 0, 0, 0);
+
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6); // Saturday
+    endOfWeek.setHours(23, 59, 59, 999);
+
+    const weekAppointments = await Appointment.find({
+      doctorId: req.user.id,
+      status: 'confirmed',
+      date: { $gte: startOfWeek, $lte: endOfWeek }
+    }).populate('patientId', '_id');
+
+    const uniqueWeekPatientIds = new Set(weekAppointments.map((apt) => apt.patientId._id.toString()));
+    const patientsThisWeek = uniqueWeekPatientIds.size;
+
+    return res.json({
+      totalPatients,
+      patientsThisWeek
+    });
+  } catch (error) {
+    console.error('Get stats error:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
 exports.updateProfile = async (req, res) => {
   try {
     if (!ensureDoctorRole(req, res)) {

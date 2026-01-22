@@ -9,11 +9,13 @@ const {
   addProfileField,
   updateProfileField,
   deleteProfileField,
+  getStats,
 } = require('../controllers/doctorController');
 
 const router = express.Router();
 
 router.get('/doctor/patients', authMiddleware, getPatients);
+router.get('/doctor/stats', authMiddleware, getStats);
 router.get('/doctor/appointments/pending', authMiddleware, getPendingAppointments);
 router.post('/doctor/appointments/:appointmentId/respond', authMiddleware, respondToAppointment);
 router.get('/doctor/profile', authMiddleware, getProfile);
