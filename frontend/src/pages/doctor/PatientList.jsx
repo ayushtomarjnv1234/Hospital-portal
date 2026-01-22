@@ -4,7 +4,7 @@ import DashboardLayout from '../../components/DashboardLayout'
 import { doctorLinks } from './DoctorDashboard'
 import useLogoutNavigation from '../../hooks/useLogoutNavigation'
 
-const API_BASE_URL = 'http://localhost:5000/api'
+const API_BASE_URL = import.meta.env.VITE_API_URL
 
 const PatientList = () => {
   const handleLogout = useLogoutNavigation()

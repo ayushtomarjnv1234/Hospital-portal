@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import Button from '../components/Button'
 
+const API_BASE_URL = import.meta.env.VITE_API_URL
+
 const Logout = () => {
   const navigate = useNavigate()
   const [status, setStatus] = useState('pending')
@@ -16,7 +18,7 @@ const Logout = () => {
       try {
         if (token) {
           await axios.post(
-            'http://localhost:5000/api/auth/logout',
+            `${API_BASE_URL}/auth/logout`,
             {},
             {
               headers: {

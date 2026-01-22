@@ -65,6 +65,8 @@ import AuthForm from '../components/AuthForm'
 import Input from '../components/Input'
 import Button from '../components/Button'
 
+const API_BASE_URL = import.meta.env.VITE_API_URL
+
 const roleOptions = [
   { label: 'I am a Patient', value: 'patient' },
   { label: 'I am a Doctor', value: 'doctor' },
@@ -105,7 +107,7 @@ const SignUp = () => {
         role: formData.role
       }
 
-      const response = await axios.post('http://localhost:5000/api/auth/signup', payload)
+      const response = await axios.post(`${API_BASE_URL}/auth/signup`, payload)
       
       console.log('Success:', response.data)
       alert('Account Created! Please Log In.')

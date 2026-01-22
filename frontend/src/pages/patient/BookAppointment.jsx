@@ -7,7 +7,7 @@ import { patientLinks } from './PatientDashboard'
 import useLogoutNavigation from '../../hooks/useLogoutNavigation'
 
 const timeSlots = ['09:00 AM', '09:30 AM', '10:00 AM', '10:30 AM', '11:00 AM']
-const API_BASE_URL = 'http://localhost:5000/api'
+const API_BASE_URL = import.meta.env.VITE_API_URL
 
 const BookAppointment = () => {
   const handleLogout = useLogoutNavigation()

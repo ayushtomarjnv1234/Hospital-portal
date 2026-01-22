@@ -36,6 +36,8 @@ import AuthForm from '../components/AuthForm'
 import Input from '../components/Input'
 import Button from '../components/Button'
 
+const API_BASE_URL = import.meta.env.VITE_API_URL
+
 const Login = () => {
   const navigate = useNavigate()
 
@@ -57,7 +59,7 @@ const Login = () => {
 
     try {
       // Send login request to backend
-      const response = await axios.post('http://localhost:5000/api/auth/login', {
+      const response = await axios.post(`${API_BASE_URL}/auth/login`, {
         email: formData.email,
         password: formData.password
       })
